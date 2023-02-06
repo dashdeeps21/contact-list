@@ -1,0 +1,10 @@
+body {
+  font-family: sans-serif !important;
+  background-color: #eee8e4 !important;
+}
+
+.contact-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
