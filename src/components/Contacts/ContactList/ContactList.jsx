@@ -4,7 +4,7 @@ import { ContactService } from "../../../services/ContactService";
 import Spinner from "../../Spinner/Spinner";
 
 let ContactList = () => {
-  let [state, setstate] = useState({
+  let [state, setState] = useState({
     loading: false,
     contacts: [],
     errorMessage: "",
@@ -13,15 +13,15 @@ let ContactList = () => {
   useEffect(() => {
     async function handleResp() {
       try {
-        setstate({ ...state, loading: true });
+        setState({ ...state, loading: true });
         let response = await ContactService.getALLContacts();
-        setstate({
+        setState({
           ...state,
           loading: false,
           contacts: response.data,
         });
       } catch (error) {
-        setstate({
+        setState({
           ...state,
           loading: false,
           errorMessage: error.message,
@@ -131,7 +131,7 @@ let ContactList = () => {
                                   <i className="fa fa-eye" />
                                 </Link>
                                 <Link
-                                  to={`/contacts/edit/:contactId`}
+                                  to={`/contacts/edit/${contact.id}`}
                                   className="btn btn-primary my-1"
                                 >
                                   <i className="fa fa-pen" />
