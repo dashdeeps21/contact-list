@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const AddContact = () => {
+let AddContact = () => {
   return (
     <>
       <section className="add-contact p-3">
