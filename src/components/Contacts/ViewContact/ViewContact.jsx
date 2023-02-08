@@ -45,7 +45,9 @@ let ViewContact = () => {
           <div className="row align-items-center">
             <div className="col">
               <p className="h3 text-warning fw-bold">View Contact</p>
-              <p className="fst-italic">You can view a contact here.</p>
+              <p className="fst-italic">
+                You can view a contact here with all the possible details.
+              </p>
             </div>
           </div>
         </div>

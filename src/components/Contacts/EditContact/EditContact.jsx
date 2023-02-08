@@ -87,8 +87,7 @@ let EditContact = () => {
                 <div className="col">
                   <p className="h4 text-primary fw-bold">Edit Contact</p>
                   <p className="fst-italic">
-                    Here You can Create New Contact with the Category and Email
-                    address.
+                    Here You can modify all the existing details.
                   </p>
                 </div>
               </div>

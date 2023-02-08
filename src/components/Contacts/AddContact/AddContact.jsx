@@ -75,8 +75,9 @@ let AddContact = () => {
             <div className="col">
               <p className="h4 text-success fw-bold">Create Contact</p>
               <p className="fst-italic">
-                Here You can Create New Contact with the Category and Email
-                address.
+                Here you can create a new contact with the category, relation
+                with them, mobile no., profession, and e-mail address. Also, you
+                can save their photo with the photo url.
               </p>
             </div>
           </div>

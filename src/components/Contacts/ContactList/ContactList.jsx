@@ -4,9 +4,14 @@ import { ContactService } from "../../../services/ContactService";
 import Spinner from "../../Spinner/Spinner";
 
 let ContactList = () => {
+  let [query, setQuery] = useState({
+    text: "",
+  });
+
   let [state, setState] = useState({
     loading: false,
     contacts: [],
+    filteredContacts: [],
     errorMessage: "",
   });
 
@@ -19,6 +24,7 @@ let ContactList = () => {
           ...state,
           loading: false,
           contacts: response.data,
+          filteredContacts: response.data,
         });
       } catch (error) {
         setState({
@@ -32,9 +38,47 @@ let ContactList = () => {
     handleResp();
   }, []);
 
-  let { loading, contacts, errorMessage } = state;
+  // delete the contact
+  let clickDelete = async (contactId) => {
+    try {
+      let response = await ContactService.deleteContact(contactId);
+      if (response) {
+        setState({ ...state, loading: true });
+        let response = await ContactService.getALLContacts();
+        setState({
+          ...state,
+          loading: false,
+          contacts: response.data,
+          filteredContacts: response.data,
+        });
+      }
+    } catch (error) {
+      setState({
+        ...state,
+        loading: false,
+        errorMessage: error.message,
+      });
+    }
+  };
+
+  // Search Contacs
+  let searchContacts = (event) => {
+    setQuery({ ...query, text: event.target.value });
+    let theContacts = state.contacts.filter((contact) => {
+      return contact.name
+        .toLowerCase()
+        .includes(event.target.value.toLowerCase());
+    });
+    setState({
+      ...state,
+      filteredContacts: theContacts,
+    });
+  };
+
+  let { loading, filteredContacts, errorMessage } = state;
   return (
     <>
+      <pre>{query.text}</pre>
       <section className="contact-search p-3">
         <div className="container">
           <div className="grid">
@@ -47,8 +91,9 @@ let ContactList = () => {
                   </Link>
                 </p>
                 <p className="fst-italic">
-                  You can add contact here with the category. Also you can
-                  delete and update your contacts.
+                  Here are all your contacts. You can view them, you can modify
+                  them, also you can remove them from your contact list. You can
+                  search contacts with their name.
                 </p>
               </div>
             </div>
@@ -58,6 +103,9 @@ let ContactList = () => {
                   <div className="col">
                     <div className="mb-2">
                       <input
+                        name="text"
+                        value={query.text}
+                        onChange={searchContacts}
                         type="text"
                         className="form-control"
                         placeholder="Search Name..."
@@ -87,8 +135,8 @@ let ContactList = () => {
           <section className="contact-list">
             <div className="container">
               <div className="row">
-                {contacts.length > 0 &&
-                  contacts.map((contact) => {
+                {filteredContacts.length > 0 &&
+                  filteredContacts.map((contact) => {
                     return (
                       <div className="col-md-6 " key={contact.id}>
                         <div className="card my-2">
@@ -136,7 +184,10 @@ let ContactList = () => {
                                 >
                                   <i className="fa fa-pen" />
                                 </Link>
-                                <button className="btn btn-danger my-1">
+                                <button
+                                  className="btn btn-danger my-1"
+                                  onClick={() => clickDelete(contact.id)}
+                                >
                                   <i className="fa fa-trash" />
                                 </button>
                               </div>
